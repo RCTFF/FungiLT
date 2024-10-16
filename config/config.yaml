@@ -1,1 +1,292 @@
+# 1、 Preparation stage
+# 1.1 Set random seeds
+seed:
+  seed_size : 42
+
+# 1.2 Do you want to enable multi card parallel computing
+parallel_computing:
+  enable : 0
+
+# 1.3 Is sequence mask data augmentation enabled
+mask_data_augmentation:
+  enable : 0
+
+# 1.4 Do you want to disable the progress bar
+disable_process:
+  enable : 1
+
+# 1.5 Save model mode
+save_model:
+  mode : 1  # 1 represents saving the complete model, 0 represents saving the model parameters
+
+# 1.6 Do you want to activate training mode
+train_mode:
+  enable : 1
+
+# 1.7 Do you want to enable test mode
+test_mode:
+  enable : 1
+
+# 1.8 是Whether to activate the early stop mechanism
+early_stopping:
+  enable : 1
+
+# 1.9 Do you want to enable cross validation method
+kfold_cross_validation:
+  enable : 0
+
+# 1.10 Three perspective feature activation
+three_data:
+  enable : 0
+
+# 1.11 Bacterial 16S
+rna_data:
+  enable : 0
+
+# 2、 Sequence encoding stage
+# 2.1 Set the k value of kmer
+k_mer:
+  k : 5
+
+# 2.2 Select sequence encoding method
+seq_encoder:
+  # word2vec1
+  # dna2vec
+  # word2vec2
+  # kmer_freq
+  # kmer_fre_and_word2vec1
+  # kmer_fre_and_dnabert
+  # kmer_fre_and_dnabert2
+  # kmer_fre_and_dna2vec
+  # kmer_freX_and_word2vec1
+  # word2vec_and_dnabert
+  # dnabert
+  # dnabert2
+  # kmer_freq_X kmer
+  # kmers_encoder1
+  # name : 'kmer_freq'
+  name : 'dnabert'
+
+# 2.3 Select label encoding method
+label_encoder:
+  # onehot
+  # int
+  name : 'int'
+# 2.4 Parameter settings related to word vector model
+word2vec:
+  window : 5
+  workers : 32
+  min_count : 1
+  vector_size : 512
+
+# 3、 Sequence processing stage
+# Set the sequence length and fill and truncate the sequence data based on this length
+seq_length:
+  target_length : 800
+
+
+# 4、 Training phase
+# 4.1 Parameter settings related to model training
+train:
+  batch_size : 128
+  epochs : 200 # Training rounds
+  # loss function 
+  # 1：CrossEntropyLoss()
+  criterion : 'crossentropyloss'
+  # optimizer
+  # 1：Adam()
+  optimizer : 'adam'
+  lr : 0.0001
+  # Number of processes used for data loading
+  num_workers : 32
+
+# 4.2 Select Model
+models:
+  # Convolutional layer dimensions, different dimensions result in different shapes of input data
+  - name : 'cnn_model_test2d'
+    # Dimensions of Convolutional Layers
+    # Do you want to enable 1, enable 0, disable
+    value : 
+      dim : 2 
+      enable : 0
+  - name : 'cnn_model_lenet1d'
+    value : 
+      dim : 1
+      enable : 0
+  - name : 'cnn_model_lenet2d'
+    value : 
+      dim : 2
+      enable : 0
+  - name : 'ResNet18_2D'
+    value : 
+      dim : 2
+      enable : 0
+  - name : 'ResNet18_1D'
+    value : 
+      dim : 1
+      enable : 0
+  - name : 'ResNet34_1D'
+    value : 
+      dim : 1
+      enable : 0
+  - name : 'ResNet50_1D'
+    value : 
+      dim : 1
+      enable : 0 
+  - name : 'ResNet101_1D'
+    value : 
+      dim : 1
+      enable : 0
+  - name : 'ResNet152_1D'
+    value : 
+      dim : 1
+      enable : 0
+  
+  # RNN
+  - name : 'RNN_GRU'
+    value : 
+      dim : 1
+      enable : 0
+  - name : 'RNN_LSTM'
+    value : 
+      dim : 1
+      enable : 0
+  - name : 'RNN_xLSTM'
+    value : 
+      dim : 1
+      enable : 0
+  - name : 'RNN_Transformer_LSTM'
+    value : 
+      dim : 1
+      enable : 1  #
+  - name : 'RNN_Transformer_LSTM2'
+    value : 
+      dim : 1
+      enable : 0
+  - name : 'RNN_LSTM_Attention'
+    value : 
+      dim : 1
+      enable : 0
+  - name : 'Multi_View_Feature_Fusion_LSTM'
+    value : 
+      dim : 1
+      enable : 0
+  - name : 'Multi_View_Feature_Fusion_LSTM2'
+    value : 
+      dim : 1
+      enable : 1  #
+  - name : 'Multi_View_Feature_Fusion_LSTM3'
+    value : 
+      dim : 1
+      enable : 0
+  - name : 'KAN_LSTM'
+    value : 
+      dim : 1
+      enable : 0
+  - name : 'KAN_Transformer'
+    value : 
+      dim : 1
+      enable : 0
+
+
+# 4.3 datasets
+file_path:
+  # test_dataset1
+  - name : 'test'
+    value :
+      path : './dataset/unite_dataset/test_data/data.csv'
+      enable : 0
+  # test_dataset2
+  - name : 'count_sequences_test_500'
+    value :
+      path : './dataset/count_sequences_test/sequences_500.csv'
+      enable : 0
+  - name : 'count_sequences_test_400'
+    value :
+      path : './dataset/count_sequences_test/sequences_400.csv'
+      enable : 0
+  - name : 'count_sequences_test_300'
+    value :
+      path : './dataset/count_sequences_test/sequences_300.csv'
+      enable : 0
+  - name : 'count_sequences_test_200'
+    value :
+      path : './dataset/count_sequences_test/sequences_200.csv'
+      enable : 0
+  - name : 'count_sequences_test_100'
+    value :
+      path : './dataset/count_sequences_test/sequences_100.csv'
+      enable : 0
+  - name : 'count_sequences_test_50'
+    value :
+      path : './dataset/count_sequences_test/sequences_50.csv'
+      enable : 0
+  - name : 'count_sequences_test_20'
+    value :
+      path : './dataset/count_sequences_test/sequences_20.csv'
+      enable : 0
+      
+  - name : '01_dataset'
+    value :
+      path : './dataset/datasets/01_dataset.csv'
+      enable : 0
+
+  - name : '02_dataset'
+    value :
+      path : './dataset/datasets/02_dataset.csv'
+      enable : 0
+  # 8616*100=861600
+  - name : '03_dataset'
+    value :
+      path : './dataset/datasets/03_dataset.csv'
+      enable : 0
+  # 13776*20=275520
+  - name : '04_dataset'
+    value :
+      path : './dataset/datasets/04_dataset.csv'
+      enable : 0
+  # 13776*20=275520
+  - name : '04_dataset_s'
+    value :
+      path : './dataset/augement/04_dataset.csv'
+      enable : 0
+  # 17559*10=175590
+  - name : '05_dataset'
+    value :
+      path : './dataset/datasets/05_dataset.csv'
+      enable : 1
+  # 93975*100=9397500
+  - name : '06_dataset'
+    value :
+      path : './dataset/datasets/06_dataset.csv'
+      enable : 0
+  # 93975*20=1879500
+  - name : '07_dataset'
+    value :
+      path : './dataset/datasets/07_dataset.csv'
+      enable : 0
+  # 93975*50=4698750
+  - name : '08_dataset'
+    value :
+      path : './dataset/datasets/08_dataset.csv'
+      enable : 0
+  # 93975*10=939750
+  - name : '09_dataset'
+    value :
+      path : './dataset/datasets/09_dataset.csv'
+      enable : 0
+  # 10524*50=526200
+  - name : '10_dataset'
+    value :
+      path : './dataset/datasets/10_dataset.csv'
+      enable : 0
+  # 2835*10=28350
+  - name : '11_dataset'
+    value :
+      path : './dataset/datasets/11_dataset.csv'
+      enable : 0
+
+# 4.4 Save and load model
+save_model_path:
+  path : './src/save_models/save_model.pth'
 
